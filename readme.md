@@ -46,7 +46,7 @@ symfony serve
 2. To consume the messages run the next command:
 
 ```bash
-php bin/console messenger:consume async
+php bin/console messenger:consume async -vv
 ```
 
 ## Logger
