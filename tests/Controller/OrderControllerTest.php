@@ -20,7 +20,8 @@ final class OrderControllerTest extends WebTestCase
 
         /**
          * For some reason the transaction used in the extension "DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"
-         * is not working in "phpunit.dist.xml"
+         * in "phpunit.dist.xml" is not working.
+         * For simplicity I do the remove manually.
          */
         foreach ($orderRepository->findAll() as $object) {
             $this->manager->remove($object);

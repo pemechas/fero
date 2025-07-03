@@ -13,6 +13,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use App\Message\OrderWebhookMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Psr\Log\LoggerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class OrderController extends AbstractController
 {
@@ -22,8 +23,10 @@ final class OrderController extends AbstractController
         ProcessOrderService $processOrderService,
         MessageBusInterface $bus,
         LoggerInterface $logger,
+        EntityManagerInterface $manager,
     ): JsonResponse
     {
+        $manager->getConnection()->beginTransaction();
         try {
             $orderEntity = $processOrderService->calculateOrderPrice($cartDTO);
             $processOrderService->persistOrder($orderEntity);
@@ -33,12 +36,16 @@ final class OrderController extends AbstractController
              */
             $bus->dispatch(new OrderWebhookMessage($orderEntity));
 
+            $manager->getConnection()->commit();
+
             return $this->json([
                 'status' => 'success',
                 'message' => 'Order Created successfully',
             ], Response::HTTP_OK);
 
         } catch(Exception $e) {
+            $manager->getConnection()->rollBack();
+
             $logger->error('ERROR: checkout: Order creation failed: ' . $e->getMessage());
 
             return $this->json([

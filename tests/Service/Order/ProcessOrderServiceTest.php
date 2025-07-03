@@ -29,9 +29,23 @@ final class ProcessOrderServiceTest extends KernelTestCase
          * Get ProcessOrderService service
          */
         $this->processOrderService = $container->get(ProcessOrderService::class);
+
+        $manager = $container->get('doctrine')->getManager();
+        $orderRepository = $manager->getRepository(Order::class);
+
+        /**
+         * For some reason the transaction used in the extension "DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"
+         * in "phpunit.dist.xml" is not working.
+         * For simplicity I do the remove manually
+         */
+        foreach ($orderRepository->findAll() as $object) {
+            $manager->remove($object);
+        }
+
+        $manager->flush();
     }
 
-    public function testCalculateOrderPriceSuccess(): void
+    public function testCalculateOrderPriceAndPersistSuccess(): void
     {
         $products = [];
         /**
@@ -70,5 +84,8 @@ final class ProcessOrderServiceTest extends KernelTestCase
         $this->assertNull($order->getId());
         $this->assertEquals($order->getTotalAmount(), 18);
         $this->assertEquals($order->getStatus(), OrderStatus::Pending);
+
+        $this->processOrderService->persistOrder($order);
+        $this->assertIsInt($order->getId());
     }
 }

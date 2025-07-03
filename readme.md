@@ -13,7 +13,7 @@ You must have [php](https://www.php.net/manual/en/install.php) (version 8), [Mys
 composer install
 ```
 
-2. Open the .env file and uncomment the next line to configure mysql database conection in the project:
+2. Copy env.example to a new .env file and uncomment the next line to configure mysql database conection in the project:
 
     * The first "app" is the name of the user, "!ChangeMe!" is the password for that user and the second "app" is the name of the schema.
     * If the username, password, host or database name contain any character considered special in a URI (such as : / ? # [ ] @ ! $ & ' ( ) * + , ; =), you must encode them. See [RFC 3986](https://www.ietf.org/rfc/rfc3986.txt) for the full list of reserved characters. You can use the [urlencode](https://www.php.net/manual/en/function.urlencode.php) function to encode them
