@@ -7,13 +7,7 @@ You must have [php](https://www.php.net/manual/en/install.php) (version 8), [Mys
 
 ## Installation
 
-1. Use the package manager [composer](https://getcomposer.org/download/) to install all the dependencies:
-
-```bash
-composer install
-```
-
-2. Copy env.example to a new .env file and uncomment the next line to configure mysql database conection in the project:
+1. Copy env.example to a new .env file and uncomment the next line to configure mysql database conection in the project:
 
     * The first "app" is the name of the user, "!ChangeMe!" is the password for that user and the second "app" is the name of the schema.
     * If the username, password, host or database name contain any character considered special in a URI (such as : / ? # [ ] @ ! $ & ' ( ) * + , ; =), you must encode them. See [RFC 3986](https://www.ietf.org/rfc/rfc3986.txt) for the full list of reserved characters. You can use the [urlencode](https://www.php.net/manual/en/function.urlencode.php) function to encode them
@@ -24,6 +18,11 @@ DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8.0.32&cha
 
     Example: DATABASE_URL="mysql://<username>:<password>@127.0.0.1:3306/<schema_name>?serverVersion=8.0.32&charset=utf8mb4"
 
+2. Use the package manager [composer](https://getcomposer.org/download/) to install all the dependencies:
+
+```bash
+composer install
+```
 
 3. Run migrations for Database and tables creation:
 
